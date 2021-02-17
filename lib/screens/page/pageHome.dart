@@ -22,7 +22,7 @@ class _PageHomeState extends State<PageHome> {
                     Navigator.pop(context);
                   },
                 ),
-                Text("Page", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color(0xFF5DA3FA)))
+                Text("Page Replacement", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color(0xFF5DA3FA)))
               ],
             )
           ],
