@@ -51,7 +51,7 @@ class ButtonMat extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                iconName,
+                if(iconName != null) iconName,
                 SizedBox(height: 20),
                 Text(
                   "$text",
@@ -62,6 +62,7 @@ class ButtonMat extends StatelessWidget {
                     fontWeight: FontWeight.bold
                     )
                 ),
+                SizedBox(height: 20),
               ]
             ),
             onPressed: pressButton,
