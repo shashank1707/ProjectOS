@@ -411,10 +411,8 @@ class _PageHomeState extends State<PageHome> {
                               )
                             ]
                           ),
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            // color: Color(0xff616161),
-                            child: Text("Calculate", style: TextStyle(color: Colors.white),),
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_forward_rounded),
                             onPressed: (){
                               calc();
                             }
