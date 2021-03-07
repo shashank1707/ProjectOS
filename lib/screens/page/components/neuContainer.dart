@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class NeuContainer extends StatelessWidget {
    final double boxHeight, boxWidth;
    final boxChild;
+   final boxColor;
+   final boxAlignment;
 
-   NeuContainer({this.boxHeight, this.boxWidth, this.boxChild});
+   NeuContainer({this.boxHeight, this.boxWidth, this.boxChild, this.boxColor, this.boxAlignment});
 
    
   @override
@@ -16,8 +18,9 @@ class NeuContainer extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10, right: 10),
           width: boxWidth,
           height: boxHeight,
+          alignment: boxAlignment,
           decoration: BoxDecoration(
-            color: Color(0xFFEBEBEB),
+            color: boxColor == null ? Color(0xFFEBEBEB) : boxColor,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
