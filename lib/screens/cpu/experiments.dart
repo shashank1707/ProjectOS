@@ -19,44 +19,42 @@ class _ExperimentState extends State<Experiment> {
 
   double height = 203;
 
-  void empty() {
-    // bool isIO = false;
+  bool isIO = false;
 
-    // int ioBg = 0;
-    // int ioText = 1;
+  int ioBg = 0;
+  int ioText = 1;
 
-    // String bt1 = "";
-    // String bt2 = "";
+  String bt1 = "";
+  String bt2 = "";
 
-    // void ioCheck(bool ioChecked) {
-    //   setState(() {
-    //     isIO = ioChecked;
-    //     if (ioChecked) {
-    //       ioBg = 1;
-    //       ioText = 0;
-    //       height = 260;
-    //       bt1 = ' 1ˢᵗ';
-    //       bt2 = ' 2ⁿᵈ';
-    //     } else {
-    //       ioBg = 0;
-    //       ioText = 1;
-    //       height = 203;
-    //       bt1 = "";
-    //       bt2 = "";
-    //     }
-    //   });
-    // }
+  void ioCheck(bool ioChecked) {
+    setState(() {
+      isIO = ioChecked;
+      if (ioChecked) {
+        ioBg = 1;
+        ioText = 0;
+        height = 260;
+        bt1 = ' 1ˢᵗ';
+        bt2 = ' 2ⁿᵈ';
+      } else {
+        ioBg = 0;
+        ioText = 1;
+        height = 203;
+        bt1 = "";
+        bt2 = "";
+      }
+    });
+  }
 
-    // int preEmpText = 1;
-    // int preEmpBg = 0;
+  int preEmpText = 1;
+  int preEmpBg = 0;
 
-    // void preEmpCheck() {
-    //   setState(() {
-    //     int temp = preEmpText;
-    //     preEmpText = preEmpBg;
-    //     preEmpBg = temp;
-    //   });
-    // }
+  void preEmpCheck() {
+    setState(() {
+      int temp = preEmpText;
+      preEmpText = preEmpBg;
+      preEmpBg = temp;
+    });
   }
 
   TextEditingController arrivalTime = TextEditingController();
@@ -89,9 +87,9 @@ class _ExperimentState extends State<Experiment> {
         ),
         body: CustomScrollView(
           slivers: <Widget>[
-            // SliverToBoxAdapter(
-            //   child: !isIO ? Text("Hey There") : Container(),
-            // ),
+            SliverToBoxAdapter(
+              child: !isIO ? Text("Hey There") : Container(),
+            ),
             SliverToBoxAdapter(
               child: Center(
                 child: Column(
@@ -299,7 +297,7 @@ class _ExperimentState extends State<Experiment> {
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Enter Burst Time",
+                            hintText: "Enter$bt1 Burst Time",
                             hintStyle: TextStyle(
                                 color: Color(0xff616161),
                                 fontWeight: FontWeight.w500)),
@@ -311,94 +309,89 @@ class _ExperimentState extends State<Experiment> {
                   ),
                 ],
               ),
-              Visibility(
-                visible: false,
-                child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: isIO
-                    //       ? [
-                    //           Expanded(
-                    //             child: NeuContainer(
-                    //               rightPadding: true,
-                    //               boxChild: TextField(
-                    //                 keyboardType: TextInputType.number,
-                    //                 textAlign: TextAlign.center,
-                    //                 decoration: InputDecoration(
-                    //                     border: InputBorder.none,
-                    //                     hintText: "Enter I/O Time",
-                    //                     hintStyle: TextStyle(
-                    //                         color: Color(0xff616161),
-                    //                         fontWeight: FontWeight.w500)),
-                    //                 onChanged: (text) {
-                    //                   setState(() {});
-                    //                 },
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           Expanded(
-                    //             child: NeuContainer(
-                    //               leftPadding: true,
-                    //               boxChild: TextField(
-                    //                 keyboardType: TextInputType.number,
-                    //                 textAlign: TextAlign.center,
-                    //                 decoration: InputDecoration(
-                    //                     border: InputBorder.none,
-                    //                     hintText: 'Enter$bt2 Burst Time',
-                    //                     hintStyle: TextStyle(
-                    //                         color: Color(0xff616161),
-                    //                         fontWeight: FontWeight.w500)),
-                    //                 onChanged: (text) {
-                    //                   setState(() {});
-                    //                 },
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ]
-                    //       : [],
-                    ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: isIO
+                    ? [
+                        Expanded(
+                          child: NeuContainer(
+                            rightPadding: true,
+                            boxChild: TextField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Enter I/O Time",
+                                  hintStyle: TextStyle(
+                                      color: Color(0xff616161),
+                                      fontWeight: FontWeight.w500)),
+                              onChanged: (text) {
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: NeuContainer(
+                            leftPadding: true,
+                            boxChild: TextField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Enter$bt2 Burst Time',
+                                  hintStyle: TextStyle(
+                                      color: Color(0xff616161),
+                                      fontWeight: FontWeight.w500)),
+                              onChanged: (text) {
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ),
+                      ]
+                    : [],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Visibility(
-                    child: Expanded(
-                      child: NeuContainer(
-                          //       // boxHeight: 48,
-                          //       rightPadding: true,
-                          //       boxChild: Row(
-                          //         crossAxisAlignment: CrossAxisAlignment.stretch,
-                          //         children: [
-                          //           Expanded(
-                          //             child: Container(
-                          //               child: FlatButton(
-                          //                 shape: RoundedRectangleBorder(
-                          //                     borderRadius: BorderRadius.circular(15)),
-                          //                 color: colors[ioText],
-                          //                 child: Text("I/O",
-                          //                     style: TextStyle(color: colors[ioBg])),
-                          //                 onPressed: () {
-                          //                   ioCheck(true);
-                          //                 },
-                          //               ),
-                          //             ),
-                          //           ),
-                          //           Expanded(
-                          //             child: Container(
-                          //               child: FlatButton(
-                          //                 shape: RoundedRectangleBorder(
-                          //                     borderRadius: BorderRadius.circular(15)),
-                          //                 color: colors[ioBg],
-                          //                 child: Text("Non I/O",
-                          //                     style: TextStyle(color: colors[ioText])),
-                          //                 onPressed: () {
-                          //                   ioCheck(false);
-                          //                 },
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
+                  Expanded(
+                    child: NeuContainer(
+                      // boxHeight: 48,
+                      rightPadding: true,
+                      boxChild: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                color: colors[ioText],
+                                child: Text("I/O",
+                                    style: TextStyle(color: colors[ioBg])),
+                                onPressed: () {
+                                  ioCheck(true);
+                                },
+                              ),
+                            ),
                           ),
+                          Expanded(
+                            child: Container(
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15)),
+                                color: colors[ioBg],
+                                child: Text("Non I/O",
+                                    style: TextStyle(color: colors[ioText])),
+                                onPressed: () {
+                                  ioCheck(false);
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   NeuContainer(
@@ -417,49 +410,47 @@ class _ExperimentState extends State<Experiment> {
                   ),
                 ],
               ),
-              Visibility(
-                child: Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Expanded(
-                    //       child: NeuContainer(
-                    //         rightPadding: true,
-                    //         boxColor: colors[preEmpBg],
-                    //         boxChild: FlatButton(
-                    //             shape: RoundedRectangleBorder(
-                    //                 borderRadius: BorderRadius.circular(15)),
-                    //             child: Text(
-                    //               "Non Pre-Emptive",
-                    //               style: TextStyle(
-                    //                   color: colors[preEmpText],
-                    //                   fontWeight: FontWeight.w500),
-                    //             ),
-                    //             onPressed: () {
-                    //               preEmpCheck();
-                    //             }),
-                    //       ),
-                    //     ),
-                    //     NeuContainer(
-                    //       leftPadding: true,
-                    //       boxWidth: 130,
-                    //       boxColor: colors[0],
-                    //       boxChild: FlatButton(
-                    //           shape: RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(15)),
-                    //           child: Text(
-                    //             "Calculate",
-                    //             style: TextStyle(
-                    //                 color: colors[1], fontWeight: FontWeight.w500),
-                    //           ),
-                    //           onPressed: () {
-                    //             Navigator.push(context,
-                    //                 MaterialPageRoute(builder: (context) {
-                    //               return Experiment2();
-                    //             }));
-                    //           }),
-                    //     ),
-                    //   ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: NeuContainer(
+                      rightPadding: true,
+                      boxColor: colors[preEmpBg],
+                      boxChild: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Text(
+                            "Non Pre-Emptive",
+                            style: TextStyle(
+                                color: colors[preEmpText],
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onPressed: () {
+                            preEmpCheck();
+                          }),
                     ),
+                  ),
+                  NeuContainer(
+                    leftPadding: true,
+                    boxWidth: 130,
+                    boxColor: colors[0],
+                    boxChild: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Text(
+                          "Calculate",
+                          style: TextStyle(
+                              color: colors[1], fontWeight: FontWeight.w500),
+                        ),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Experiment2();
+                          }));
+                        }),
+                  ),
+                ],
               ),
             ],
           ),
