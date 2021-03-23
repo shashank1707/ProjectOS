@@ -2,10 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 //importing screens
-import 'package:ProjectOS/screens/cpu/cpuHome.dart';
-import 'package:ProjectOS/screens/deadlock/deadlockHome.dart';
-import 'package:ProjectOS/screens/disk/diskHome.dart';
-import 'package:ProjectOS/screens/page/pageHome.dart';
+import 'package:project_os/screens/cpu/cpuHome.dart';
+import 'package:project_os/screens/deadlock/deadlockHome.dart';
+import 'package:project_os/screens/disk/diskHome.dart';
+import 'package:project_os/screens/page/pageHome.dart';
 
 
 //importing components
