@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class DataGrid extends StatelessWidget {
 
   final dataTable;
+  final inputString;
 
-  DataGrid({this.dataTable});
+  DataGrid({this.dataTable, this.inputString});
   var fr = 1;
+  var index = 0;
 
   bool isSame = false;
 
@@ -13,6 +15,7 @@ class DataGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _inputString = inputString.split(" ");
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color(0xFFEBEBEB),
@@ -62,6 +65,17 @@ class DataGrid extends StatelessWidget {
                       SizedBox(height: 20),
                       Row(
                         children: [
+                          Container(
+                            margin: EdgeInsets.all(5),
+                            alignment: Alignment.center,
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color(0xFF616161)
+                            ),
+                            child: Text("Page", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                          ),
                           ...(dataTable[0]).map((k){
                             return Container(
                               margin: EdgeInsets.all(5),
@@ -77,6 +91,7 @@ class DataGrid extends StatelessWidget {
                           }).toList(),
                         ],
                       ),
+                      
                       ...(dataTable).map((arr){
                         isSame = false;
                         if(arr.toString() == prev.toString()){
@@ -85,6 +100,18 @@ class DataGrid extends StatelessWidget {
                         prev = arr;
                         return Row(
                           children: [
+                            Container(
+                              margin: EdgeInsets.all(5),
+                              alignment: Alignment.center,
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color(0xFFebebeb)
+                              ),
+                              child: Text("${_inputString[index++]}", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                            ),
                             ...(arr).map((e){
                               return Container(
                                 margin: EdgeInsets.all(5),

@@ -3,9 +3,9 @@ import 'package:fl_chart/fl_chart.dart';
 
 class ComparisonGraph extends StatefulWidget {
 
-  final Map fifoData, lruData, oprData;
+  final Map fifoData, lruData, oprData, lifoData;
 
-  ComparisonGraph({this.fifoData, this.lruData, this.oprData});
+  ComparisonGraph({this.fifoData, this.lruData, this.oprData, this.lifoData});
 
   @override
   _ComparisonGraphState createState() => _ComparisonGraphState();
@@ -21,6 +21,7 @@ class _ComparisonGraphState extends State<ComparisonGraph> {
   Map _fifoData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
   Map _oprData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
   Map _lruData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
+  Map _lifoData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
 
   void initState(){
     super.initState();
@@ -41,6 +42,11 @@ class _ComparisonGraphState extends State<ComparisonGraph> {
     await Future.delayed(Duration(milliseconds: 100));
     setState(() {
       _oprData = widget.oprData;
+
+    });
+    await Future.delayed(Duration(milliseconds: 100));
+    setState(() {
+      _lifoData = widget.lifoData;
 
     });
   }
@@ -102,6 +108,8 @@ class _ComparisonGraphState extends State<ComparisonGraph> {
                             return 'LRU';
                           case 2:
                             return 'OPR';
+                          case 3:
+                            return 'LIFO';
                           default:
                             return '';
                         }
@@ -119,7 +127,8 @@ class _ComparisonGraphState extends State<ComparisonGraph> {
                   barGroups: [
                     makeGroupData(0, _fifoData["hitRatio"], _fifoData["faultRatio"]),
                     makeGroupData(1, _lruData["hitRatio"], _lruData["faultRatio"]),
-                    makeGroupData(2, _oprData["hitRatio"], _oprData["faultRatio"])
+                    makeGroupData(2, _oprData["hitRatio"], _oprData["faultRatio"]),
+                    makeGroupData(3, _lifoData["hitRatio"], _lifoData["faultRatio"]),
                   ],
                   borderData: FlBorderData(
                     show: false,

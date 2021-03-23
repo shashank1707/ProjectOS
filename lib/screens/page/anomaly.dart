@@ -13,6 +13,25 @@ class Anomaly extends StatefulWidget {
 
 class _AnomalyState extends State<Anomaly> {
 
+  var fifoDataList;
+  var lruDataList;
+  var oprDataList;
+  var lifoDataList;
+
+  void initState(){
+    super.initState();
+    setListData();
+  }
+
+  setListData(){
+    setState(() {
+      fifoDataList = [fifo(1), fifo(2), fifo(3), fifo(4), fifo(5), fifo(6), fifo(7), fifo(8), fifo(9), fifo(10)];
+      lifoDataList = [lifo(1), lifo(2), lifo(3), lifo(4), lifo(5), lifo(6), lifo(7), lifo(8), lifo(9), lifo(10)];
+      lruDataList = [lru(1), lru(2), lru(3), lru(4), lru(5), lru(6), lru(7), lru(8), lru(9), lru(10)];
+      oprDataList = [opr(1), opr(2), opr(3), opr(4), opr(5), opr(6), opr(7), opr(8), opr(9), opr(10)];
+    });
+  }
+
   
 
   double fifo(_frames){
@@ -23,10 +42,6 @@ class _AnomalyState extends State<Anomaly> {
     var _pageFault = 0;
     var index = 0;
     int i = 0;
-    // for(i = i; i<frameList.length && i<n; i++){
-    //   frameList[i] = int.parse(pageList[i]);
-    //   _pageFault++;
-    // }
 
     for(i = i; i<n; i++){
       if(!frameList.contains(int.parse(pageList[i]))){
@@ -36,6 +51,28 @@ class _AnomalyState extends State<Anomaly> {
       }
     }
     return _pageFault/n;
+  }
+
+
+  double lifo(_frames){  
+    var pageList = widget.inputString.split(" ");
+    var frameList = new List.filled(_frames, -1);
+    int n = pageList.length;
+    var _pageFault = 0;
+    var index = 0;
+    int i = 0;
+
+
+    for(i = i; i<n; i++){
+      if(!frameList.contains(int.parse(pageList[i]))){
+        frameList[index] = int.parse(pageList[i]);
+        _pageFault++;
+        if(index != frameList.length-1) index++;
+      }
+    }
+
+    return _pageFault/n;
+
   }
 
 
@@ -64,7 +101,7 @@ class _AnomalyState extends State<Anomaly> {
 
     for(i=i; i<n; i++){
       if(frameList.contains(int.parse(pageList[i]))){
-        // print(" ");
+
       }else{
 
         for(int j=0; j<i; j++){
@@ -93,17 +130,12 @@ class _AnomalyState extends State<Anomaly> {
 
 
   double opr(_frames){
-    //converting string to int array
     var pageList = widget.inputString.split(" ");
     var frameList = new List.filled(_frames, -1);
     int n = pageList.length;
     var _pageFault = 0;
     int i = 0;
 
-    // for (i = i; i < frameList.length && i<n; i++) {
-    //   frameList[i] = int.parse(pageList[i]);
-    //   _pageFault++;
-    // }
 
     for(i=i; i<n; i++){
       if(frameList.contains(int.parse(pageList[i]))){
@@ -154,11 +186,13 @@ class _AnomalyState extends State<Anomaly> {
 
   double whichAlgo(_frames){
     if(widget.algo == 0){
-      return fifo(_frames);
+      return fifoDataList[_frames - 1];
     }else if(widget.algo == 1){
-      return lru(_frames);
+      return lruDataList[_frames - 1];
     }else if(widget.algo == 2){
-      return opr(_frames);
+      return oprDataList[_frames - 1];
+    }else if(widget.algo == 3){
+      return lifoDataList[_frames - 1];
     }
 
     return 0.0;
@@ -214,12 +248,6 @@ class _AnomalyState extends State<Anomaly> {
                   titleText: 'Number of Frames',
                   textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black)
                 ),
-                // topTitle: AxisTitle(
-                //   showTitle: true,
-                //   margin: 10,
-                //   titleText: 'Belady\'s Anomaly',
-                //   textStyle: TextStyle(fontSize: 12, color: Colors.black),
-                // )
               ),
               lineBarsData: [
                 LineChartBarData(
@@ -234,23 +262,12 @@ class _AnomalyState extends State<Anomaly> {
                     FlSpot(7, whichAlgo(7)),
                     FlSpot(8, whichAlgo(8)),
                     FlSpot(9, whichAlgo(9)),
-                    FlSpot(10, whichAlgo(10)),
-                    // FlSpot(11, whichAlgo(11)),
-                    // FlSpot(12, whichAlgo(12)),
-                    // FlSpot(13, whichAlgo(13)),
-                    // FlSpot(14, whichAlgo(14)),
-                    // FlSpot(15, whichAlgo(15)),
-                    // FlSpot(16, whichAlgo(16)),
-                    // FlSpot(17, whichAlgo(17)),
-                    // FlSpot(18, whichAlgo(18)),
-                    // FlSpot(19, whichAlgo(19)),
-                    // FlSpot(20, whichAlgo(20)),
+                    FlSpot(10, whichAlgo(10))
                   ],
                   colors: [Color(0xfffc6b4e)],
                   isCurved: true,
                   curveSmoothness: 0.2,
                   barWidth: 4,
-                  // isStrokeCapRound: true,
                   dotData: FlDotData(
                     show: false,
                   ),

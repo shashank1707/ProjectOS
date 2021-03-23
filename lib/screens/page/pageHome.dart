@@ -1,5 +1,5 @@
 
-import 'package:ProjectOS/screens/page/result.dart';
+import 'package:project_os/screens/page/result.dart';
 
 
 import './components/neuContainer.dart';

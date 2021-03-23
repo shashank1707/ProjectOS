@@ -1,7 +1,7 @@
 // import 'package:ProjectOS/screens/page/components/materialButton.dart';
-import 'package:ProjectOS/screens/page/anomaly.dart';
-import 'package:ProjectOS/screens/page/compare.dart';
-import 'package:ProjectOS/screens/page/table.dart';
+import 'package:project_os/screens/page/anomaly.dart';
+import 'package:project_os/screens/page/compare.dart';
+import 'package:project_os/screens/page/table.dart';
 import './table.dart';
 
 import './components/neuContainer.dart';
@@ -65,7 +65,7 @@ class _ResultPageState extends State<ResultPage> {
   var title = "First In First Out";
   var theory = 'As the name suggests, this algorithm works on the principle of "First in First out".It replaces the oldest page that has been present in the main memory for the longest time. It is implemented by keeping track of all the pages in a queue.';
 
-  var selectedButton = new List.filled(3, false);
+  var selectedButton = new List.filled(4, false);
 
   var pageHit = 0;
   var pageFault = 0;
@@ -75,8 +75,14 @@ class _ResultPageState extends State<ResultPage> {
   var fifoData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
   var oprData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
   var lruData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
+  var lifoData = {"pageHit" : 0, "pageFault" : 0, "hitRatio": 0.00, "faultRatio": 0.00};
 
   var dataTable;
+  var fifoDataTable;
+  var lifoDataTable;
+  var lruDataTable;
+  var oprDataTable;
+
   
   @override
   void initState() {
@@ -84,11 +90,18 @@ class _ResultPageState extends State<ResultPage> {
     setState(() {
       selectedButton[0] = true;
     });
-    calc();
+    runAllAlgo();
+  }
+
+  void runAllAlgo(){
+    lifo();
+    opr();
+    lru();
+    fifo();
   }
 
   void check(index){
-    selectedButton = new List.filled(3, false);
+    selectedButton = new List.filled(4, false);
     setState(() {
       selectedButton[index] = true;
       if(index == 0){
@@ -106,6 +119,9 @@ class _ResultPageState extends State<ResultPage> {
         title = "Optimal Page Replacement";
         theory = 'This algorithm replaces the page that will not be referred by the CPU in future for the longest time. It is practically impossible to implement this algorithm. This is because the pages that will not be used in future for the longest time can not be predicted. However, it is the best known algorithm and gives the least number of page faults. Hence, it is used as a performance measure criterion for other algorithms.';
 
+      }else if(index == 3){
+        title = "Last In First Out";
+        theory = 'As the name suggests, this algorithm works on the principle of "Last in First out". It replaces the newest page that arrived at last in the main memory. It is implemented by keeping track of all the pages in a stack.';
       }
     });
     calc();
@@ -122,11 +138,6 @@ class _ResultPageState extends State<ResultPage> {
     var index = 0;
     int i = 0;
 
-    // for(i = i; i<frameList.length && i<n; i++){
-    //   frameList[i] = int.parse(pageList[i]);
-    //   _pageFault++;
-    //   _dataTable[i] = frameList.toList();
-    // }
 
     for(i = i; i<n; i++){
       if(!frameList.contains(int.parse(pageList[i]))){
@@ -152,6 +163,71 @@ class _ResultPageState extends State<ResultPage> {
       fifoData["faultRatio"] = _pageFault/n;
     });
     dataTable = _dataTable;
+    fifoDataTable = _dataTable;
+  }
+
+  setFifo(){
+    setState(() {
+      pageFault = fifoData["pageFault"];
+      pageHit = fifoData["pageHit"];
+      hitRatio = fifoData["hitRatio"];
+      faultRatio = fifoData["faultRatio"];
+
+      dataTable = fifoDataTable;
+
+    });
+  }
+  
+
+  void lifo(){  
+    var _frames = int.parse(widget.frames);
+    var pageList = widget.inputString.split(" ");
+    var frameList = new List.filled(_frames, -1);
+    int n = pageList.length;
+    var _pageFault = 0;
+    var _pageHit = 0;
+    var _dataTable = new List.filled(n, List.filled(_frames, -1));
+    var index = 0;
+    int i = 0;
+
+
+    for(i = i; i<n; i++){
+      if(!frameList.contains(int.parse(pageList[i]))){
+        frameList[index] = int.parse(pageList[i]);
+        _pageFault++;
+        if(index != frameList.length-1) index++;
+      }else{
+        _pageHit++;
+      }
+      _dataTable[i] = frameList.toList();
+    }
+
+
+    setState(() {
+      pageFault = _pageFault;
+      pageHit = _pageHit;
+      hitRatio = _pageHit/n;
+      faultRatio = _pageFault/n;
+
+      lifoData["pageHit"] = _pageHit;
+      lifoData["pageFault"] = _pageFault;
+      lifoData["hitRatio"] = _pageHit/n;
+      lifoData["faultRatio"] = _pageFault/n;
+    });
+    dataTable = _dataTable;
+    lifoDataTable = _dataTable;
+  }
+
+  setLifo(){
+    setState(() {
+      pageFault = lifoData["pageFault"];
+      pageHit = lifoData["pageHit"];
+      hitRatio = lifoData["hitRatio"];
+      faultRatio = lifoData["faultRatio"];
+
+      dataTable = lifoDataTable;
+
+    });
   }
 
   void lru(){
@@ -207,6 +283,7 @@ class _ResultPageState extends State<ResultPage> {
     }
 
     dataTable = _dataTable;
+    lruDataTable = _dataTable;
 
     setState(() {
       pageFault = _pageFault;
@@ -222,6 +299,18 @@ class _ResultPageState extends State<ResultPage> {
 
   }
 
+  setLru(){
+    setState(() {
+      pageFault = lruData["pageFault"];
+      pageHit = lruData["pageHit"];
+      hitRatio = lruData["hitRatio"];
+      faultRatio = lruData["faultRatio"];
+
+      dataTable = lruDataTable;
+
+    });
+  }
+
   void opr(){
     //converting string to int array
     var _frames = int.parse(widget.frames);
@@ -232,12 +321,6 @@ class _ResultPageState extends State<ResultPage> {
     var _pageFault = 0;
     var _pageHit = 0;
     int i = 0;
-
-    // for (i = i; i < frameList.length && i<n; i++) {
-    //   frameList[i] = int.parse(pageList[i]);
-    //   _pageFault++;
-    //   _dataTable[i] = frameList.toList();
-    // }
 
     for(i=i; i<n; i++){
       if(frameList.contains(int.parse(pageList[i]))){
@@ -285,7 +368,7 @@ class _ResultPageState extends State<ResultPage> {
       
     }
     dataTable = _dataTable;
-
+    oprDataTable = _dataTable;
     setState(() {
       pageFault = _pageFault;
       pageHit = _pageHit;
@@ -301,21 +384,31 @@ class _ResultPageState extends State<ResultPage> {
 
   }
 
+  setOpr(){
+    setState(() {
+      pageFault = oprData["pageFault"];
+      pageHit = oprData["pageHit"];
+      hitRatio = oprData["hitRatio"];
+      faultRatio = oprData["faultRatio"];
+
+      dataTable = oprDataTable;
+
+    });
+  }
+
   void calc(){
     if(selectedButton.indexOf(true) == 0){
-      fifo();
+      setFifo();
     }else if(selectedButton.indexOf(true) == 1){
-      lru();
+      setLru();
     }else if(selectedButton.indexOf(true) == 2){
-      opr();
+      setOpr();
+    }else if(selectedButton.indexOf(true) == 3){
+      setLifo();
     }
   }
 
   void compareAll(){
-    
-    lru();
-    opr();
-    fifo();
 
     Navigator.push(
       context,
@@ -324,6 +417,7 @@ class _ResultPageState extends State<ResultPage> {
           fifoData: fifoData,
           lruData: lruData,
           oprData: oprData,
+          lifoData: lifoData,
         )
     ));
   }
@@ -451,7 +545,7 @@ class _ResultPageState extends State<ResultPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DataGrid(dataTable: dataTable,)
+                              builder: (context) => DataGrid(dataTable: dataTable, inputString: widget.inputString,)
                           ));
                         },
                       )
@@ -496,6 +590,19 @@ class _ResultPageState extends State<ResultPage> {
                               ),),
                               onPressed: (){
                                 check(2);
+                              }
+                            ),
+                          ),
+                          Container(
+                            width: 70,
+                            child: FlatButton(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              color: selectedButton[3] ? Color(0xff616161) : Colors.transparent,
+                              child: Text("LIFO", style: TextStyle(
+                                color: selectedButton[3] ? Colors.white : Color(0xff616161),
+                              ),),
+                              onPressed: (){
+                                check(3);
                               }
                             ),
                           ),

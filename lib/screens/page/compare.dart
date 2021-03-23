@@ -1,12 +1,12 @@
-import 'package:ProjectOS/screens/page/comparisonGraph.dart';
+import 'package:project_os/screens/page/comparisonGraph.dart';
 import 'package:flutter/material.dart';
 import './components/neuContainer.dart';
 
 class ComparePage extends StatelessWidget {
 
-  final Map fifoData, lruData, oprData;
+  final Map fifoData, lruData, oprData, lifoData;
 
-  ComparePage({this.fifoData, this.lruData, this.oprData});
+  ComparePage({this.fifoData, this.lruData, this.oprData, this.lifoData});
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +51,13 @@ class ComparePage extends StatelessWidget {
                 hitRatio: oprData["hitRatio"].toStringAsFixed(2),
                 faultRatio: oprData["faultRatio"].toStringAsFixed(2),
               ),
+              DisplayInfo(
+                title: "LIFO",
+                pageHit: lifoData["pageHit"],
+                pageFault: lifoData["pageFault"],
+                hitRatio: lifoData["hitRatio"].toStringAsFixed(2),
+                faultRatio: lifoData["faultRatio"].toStringAsFixed(2),
+              ),
               NeuContainer(
                 boxChild: FlatButton.icon(
                   icon: Icon(Icons.bar_chart_rounded, color: Color(0xFF5DA3FA)),
@@ -61,6 +68,7 @@ class ComparePage extends StatelessWidget {
                         fifoData: fifoData,
                         lruData: lruData,
                         oprData: oprData,
+                        lifoData: lifoData,
                       ))
                     );
                   },
