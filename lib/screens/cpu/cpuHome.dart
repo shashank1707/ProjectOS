@@ -1,8 +1,7 @@
 // import 'package:ProjectOS/screens/page/components/neuContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import './neuCont.dart';
-import './experiments.dart';
-import './experiments2.dart';
 import 'result.dart';
 
 class CPUHome extends StatefulWidget {
@@ -10,157 +9,293 @@ class CPUHome extends StatefulWidget {
   _CPUHomeState createState() => _CPUHomeState();
 }
 
+final controllerAT = TextEditingController();
+final controllerBT1 = TextEditingController();
+final controllerIOT = TextEditingController();
+final controllerBT2 = TextEditingController();
+final controllerPR = TextEditingController();
+
 class _CPUHomeState extends State<CPUHome> {
   var theory =
       'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vestibulum eget pellentesque diam, in maximus risus. Ut nec vehicula nisl. Nulla ';
-  var title = "Theory";
+
+  //
+  //
+  //---Process Modification Function---
+
+  //variable declaration
+  List<Map> dataMap = [];
+
+  int counter = 0;
+  int at = 0, btInput1 = 0, ioT = 0, btInput2 = 0, prior;
+
+  //--Process Adding Function--
+  void addData() {
+    setState(() {
+      dataMap.add({
+        "Process": counter++,
+        "arrivalTime": at,
+        "burstTime1": btInput1,
+        "ioTime": ioT,
+        "burstTime2": btInput2,
+        "priority": prior,
+      });
+      controllerAT.text = "";
+      at = 0;
+      controllerBT1.text = "";
+      btInput1 = 0;
+      controllerIOT.text = "";
+      ioT = 0;
+      controllerBT2.text = "";
+      btInput2 = 0;
+      controllerPR.text = "";
+      prior = null;
+    });
+  }
+
+  //--Process Deletion Function--
+  void deleteData() {
+    setState(() {
+      dataMap.removeLast();
+      counter--;
+    });
+  }
+
+  //
+  //
+  //---Bottom Navigation Bar Function
+  //variable declartion
+  List<Color> colors = [Color(0xff616161), Color(0xffebebeb)];
+  double height = 203;
+
+  //--Io button Fuction
+  //variable declarion
+  bool isIO = false;
+
+  int ioBg = 0;
+  int ioText = 1;
+
+  String bt1 = "";
+  String bt2 = "";
+
+  //function
+  void ioCheck() {
+    setState(() {
+      isIO = !isIO;
+      if (isIO) {
+        priorityChecked ? height = 317 : height = 260;
+        ioBg = 1;
+        ioText = 0;
+        bt1 = ' 1ˢᵗ';
+        bt2 = ' 2ⁿᵈ';
+      } else {
+        priorityChecked ? height = 260 : height = 203;
+        ioBg = 0;
+        ioText = 1;
+        bt1 = "";
+        bt2 = "";
+      }
+    });
+  }
+
+  //--priority fuction
+  //variable declartion
+  int priorityText = 0;
+  int priorityBg = 1;
+  bool priorityChecked = false;
+
+  //function
+  void priorityCheck() {
+    setState(() {
+      priorityChecked = !priorityChecked;
+      if (priorityChecked) {
+        isIO ? height = 317 : height = 260;
+        priorityText = 1;
+        priorityBg = 0;
+      } else {
+        isIO ? height = 260 : height = 203;
+        priorityText = 0;
+        priorityBg = 1;
+      }
+    });
+  }
+
+  TextEditingController arrivalTime = TextEditingController();
+  TextEditingController burstTime = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-            backgroundColor: Color(0xFFEBEBEB),
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_rounded,
-                  size: 25,
-                  color: Color(0xFF616161),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              title: Text("CPU Scheduling",
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF616161))),
+      home: Scaffold(
+        backgroundColor: Color(0xffebebeb),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 25,
+              color: Color(0xFF616161),
             ),
-            body: Padding(
-              padding: const EdgeInsets.fromLTRB(19.0, 0, 19.0, 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text("CPU Scheduling",
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF616161))),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: counter == 0 ? Text("$theory") : Container(),
+              ),
+              SliverToBoxAdapter(
+                child: Center(
+                  child: Column(
                     children: [
-                      Text(
-                        "$theory",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff616161)),
-                        textAlign: TextAlign.justify,
-                      ),
-                      Container(
-                        color: Colors.white,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
+                      if (counter != 0)
+                        Container(
+                          color: Colors.transparent,
                           child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              columns: <DataColumn>[
-                                DataColumn(
-                                  label: Text('Column 1'),
-                                ),
-                                DataColumn(
-                                  label: Text('Column 2'),
-                                ),
-                                DataColumn(
-                                  label: Text('Column 3'),
-                                ),
-                                DataColumn(
-                                  label: Text('Column 4'),
-                                ),
-                                DataColumn(
-                                  label: Text('Column 5'),
-                                ),
-                                DataColumn(
-                                  label: Text('Column 6'),
-                                ),
-                              ],
-                              rows: <DataRow>[
-                                DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                  ],
-                                ),
-                                DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                  ],
-                                ),
-                                DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                  ],
-                                ),
-                                DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                    DataCell(Text('Data')),
-                                  ],
-                                ),
-                              ],
+                            scrollDirection: Axis.vertical,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: DataTable(
+                                columnSpacing: 12,
+                                columns: <DataColumn>[
+                                  DataColumn(
+                                    label: Text('Process'),
+                                  ),
+                                  // if (priorityChecked)
+                                  DataColumn(label: Text("Priority")),
+                                  DataColumn(
+                                    label: Text('Arrival Time'),
+                                  ),
+                                  DataColumn(
+                                    label: Text('$bt1 Burst Time'),
+                                  ),
+                                  if (isIO) DataColumn(label: Text("I/O Time")),
+                                  if (isIO)
+                                    DataColumn(label: Text("$bt2 Burst Time")),
+                                ],
+                                rows: <DataRow>[
+                                  ...(dataMap).map((data) {
+                                    return DataRow(cells: <DataCell>[
+                                      DataCell(Text('P${data["Process"]}')),
+                                      // if (priorityChecked)
+                                      DataCell(Text('${data['priority']}')),
+                                      DataCell(Text('${data["arrivalTime"]}')),
+                                      DataCell(Text('${data["burstTime1"]}')),
+                                      if (isIO)
+                                        DataCell(Text('${data["ioTime"]}')),
+                                      if (isIO)
+                                        DataCell(Text('${data["burstTime2"]}')),
+                                    ]);
+                                  }).toList()
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "P0",
-                            style: TextStyle(
-                                color: Color(0xff616161),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
+          child: Container(
+            height: height,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "P$counter",
+                      style: TextStyle(
+                          color: Color(0xff616161),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: NeuContainer(
+                        rightPadding: true,
+                        boxChild: TextField(
+                          controller: controllerAT,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Enter Arrival Time",
+                              hintStyle: TextStyle(
+                                  color: Color(0xff616161),
+                                  fontWeight: FontWeight.w500)),
+                          onChanged: (text) {
+                            setState(() {
+                              at = int.parse(text);
+                            });
+                          },
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                    ),
+                    Expanded(
+                      child: NeuContainer(
+                        leftPadding: true,
+                        boxChild: TextField(
+                          controller: controllerBT1,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Enter$bt1 Burst Time",
+                              hintStyle: TextStyle(
+                                  color: Color(0xff616161),
+                                  fontWeight: FontWeight.w500)),
+                          onChanged: (text) {
+                            setState(() {
+                              btInput1 = int.parse(text);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: isIO
+                      ? [
                           Expanded(
                             child: NeuContainer(
                               rightPadding: true,
                               boxChild: TextField(
+                                controller: controllerIOT,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Arrival Time",
+                                    hintText: "Enter I/O Time",
                                     hintStyle: TextStyle(
                                         color: Color(0xff616161),
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w500)),
                                 onChanged: (text) {
-                                  setState(() {});
+                                  setState(() {
+                                    ioT = int.parse(text);
+                                  });
                                 },
                               ),
                             ),
@@ -169,120 +304,187 @@ class _CPUHomeState extends State<CPUHome> {
                             child: NeuContainer(
                               leftPadding: true,
                               boxChild: TextField(
+                                controller: controllerBT2,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Burst Time",
+                                    hintText: 'Enter$bt2 Burst Time',
                                     hintStyle: TextStyle(
                                         color: Color(0xff616161),
-                                        fontWeight: FontWeight.bold)),
+                                        fontWeight: FontWeight.w500)),
                                 onChanged: (text) {
-                                  setState(() {});
+                                  setState(() {
+                                    btInput2 = int.parse(text);
+                                  });
                                 },
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: NeuContainer(
-                              boxHeight: 48,
-                              rightPadding: true,
-                              boxChild: Row(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        color: Color(0xff616161),
-                                        child: Text("I/O",
-                                            style: TextStyle(
-                                                color: Color(0xffebebeb))),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        color: Color(0xffff8822),
-                                        child: Text("Non I/O",
-                                            style: TextStyle(
-                                                color: Color(0xffebebeb))),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                        ]
+                      : [],
+                ),
+                Row(
+                    children: priorityChecked
+                        ? [
+                            Expanded(
+                              child: NeuContainer(
+                                boxChild: TextField(
+                                  controller: controllerPR,
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText:
+                                          'Enter Priority (smaller is higher)',
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff616161),
+                                          fontWeight: FontWeight.w500)),
+                                  onChanged: (text) {
+                                    setState(() {
+                                      // btInput2 = int.parse(text);
+                                    });
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                          NeuContainer(
-                            boxWidth: 90,
-                            leftPadding: true,
-                            boxColor: Color(0xff616161),
-                            boxChild: TextButton(
-                                child: Text(
-                                  "Add",
-                                  style: TextStyle(
-                                      color: Color(0xffebebeb),
-                                      fontWeight: FontWeight.bold),
+                          ]
+                        : []),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: NeuContainer(
+                        // boxHeight: 48,
+                        rightPadding: true,
+                        boxChild: FlatButton.icon(
+                          icon: isIO
+                              ? Icon(Icons.check_circle_outline,
+                                  color: colors[1])
+                              : Icon(
+                                  Icons.brightness_1_outlined,
+                                  color: colors[0],
                                 ),
-                                onPressed: () {}),
-                          ),
-                        ],
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          color: colors[ioText],
+                          label: Text("I/O",
+                              style: TextStyle(color: colors[ioBg])),
+                          onPressed: counter == 0
+                              ? () {
+                                  ioCheck();
+                                }
+                              : () {},
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: NeuContainer(
-                              rightPadding: true,
-                              boxColor: Color(0xff616161),
-                              boxChild: TextButton(
-                                  child: Text(
-                                    "Non Pre-Emptive",
-                                    style: TextStyle(
-                                        color: Color(0xffebebeb),
-                                        fontWeight: FontWeight.bold),
+                    ),
+                    Expanded(
+                      child: NeuContainer(
+                        rightPadding: true,
+                        leftPadding: true,
+                        boxColor: Color(0xffe2222B),
+                        boxChild: FlatButton.icon(
+                          icon: Icon(
+                            Icons.delete_forever_rounded,
+                            color: Colors.white,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          label: Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: colors[1], fontWeight: FontWeight.w500),
+                          ),
+                          onPressed: () {
+                            deleteData();
+                          },
+                        ),
+                      ),
+                    ),
+                    NeuContainer(
+                      boxWidth: 90,
+                      leftPadding: true,
+                      boxColor: colors[0],
+                      boxChild: FlatButton.icon(
+                          icon: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          label: Text(
+                            "Add",
+                            style: TextStyle(
+                                color: colors[1], fontWeight: FontWeight.w500),
+                          ),
+                          onPressed: () {
+                            addData();
+                          }),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: NeuContainer(
+                        rightPadding: true,
+                        boxColor: colors[priorityBg],
+                        boxChild: FlatButton.icon(
+                            icon: priorityText == 0
+                                ? Icon(
+                                    Icons.brightness_1_outlined,
+                                    color: colors[0],
+                                  )
+                                : Icon(
+                                    Icons.check_circle_outline,
+                                    color: colors[1],
                                   ),
-                                  onPressed: () {}),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            label: Text(
+                              "Priority",
+                              style: TextStyle(
+                                  color: colors[priorityText],
+                                  fontWeight: FontWeight.w500),
                             ),
-                          ),
-                          NeuContainer(
-                            leftPadding: true,
-                            boxWidth: 130,
-                            boxColor: Color(0xff616161),
-                            boxChild: TextButton(
-                                child: Text(
-                                  "Calculate",
-                                  style: TextStyle(
-                                      color: Color(0xffebebeb),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return Experiment();
-                                  }));
-                                }),
-                          ),
-                        ],
+                            onPressed: counter == 0
+                                ? () {
+                                    priorityCheck();
+                                  }
+                                : () {}),
                       ),
-                    ],
-                  )
-                ],
-              ),
-            )));
+                    ),
+                    NeuContainer(
+                      leftPadding: true,
+                      boxWidth: 130,
+                      boxColor: colors[0],
+                      boxChild: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Text(
+                            "Calculate",
+                            style: TextStyle(
+                                color: colors[1], fontWeight: FontWeight.w500),
+                          ),
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ResultPage(
+                                isIO: isIO,
+                                isPri: priorityChecked,
+                                dataMap: dataMap,
+                              );
+                            }));
+                          }),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

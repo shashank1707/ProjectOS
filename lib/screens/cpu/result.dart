@@ -1,15 +1,38 @@
 // import 'package:ProjectOS/screens/page/components/neuContainer.dart';
+// import 'dart:html';
+
 import './gantChart.dart';
 import 'package:flutter/material.dart';
 import './neuCont.dart';
 
 class ResultPage extends StatefulWidget {
+  final bool isIO;
+  final bool isPri;
+  final List<Map> dataMap;
+
+  ResultPage({this.isIO, this.isPri, this.dataMap});
+
   @override
   _ResultPageState createState() => _ResultPageState();
 }
 
 class _ResultPageState extends State<ResultPage> {
-  String dropdownValue = 'One';
+  bool isPreEmp = false;
+
+  List<Color> colorChng = [Color(0xff616161), Color(0xffebebeb)];
+
+  // List<String> algo = ["FCFS", "SJF", "LJF", "SRTF", "LRTF", "RR", "Priority"];
+
+  static const Map<String, int> algo = {
+    "FCFS": 1,
+    "SJF": 2,
+    "LJF": 3,
+    "SRTF": 4,
+    "LRTF": 5,
+    "RR": 6,
+  };
+
+  int dropDownValue = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +119,7 @@ class _ResultPageState extends State<ResultPage> {
                                   data: ThemeData(
                                     canvasColor: Color(0xffebebeb),
                                   ),
-                                  child: DropdownButton<String>(
-                                    value: dropdownValue,
+                                  child: DropdownButton<int>(
                                     icon:
                                         Icon(Icons.keyboard_arrow_down_rounded),
                                     iconSize: 24,
@@ -107,23 +129,24 @@ class _ResultPageState extends State<ResultPage> {
                                         color: Color(0xff616161),
                                         fontWeight: FontWeight.w500),
                                     underline: Container(),
-                                    onChanged: (String newValue) {
+                                    onChanged: (int newValue) {
                                       setState(() {
-                                        dropdownValue = newValue;
+                                        dropDownValue = newValue;
                                       });
                                     },
-                                    items: <String>[
-                                      'One',
-                                      'Two',
-                                      'Free',
-                                      'Four'
-                                    ].map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
+                                    items: algo
+                                        .map((description, value) {
+                                          return MapEntry(
+                                              description,
+                                              DropdownMenuItem<int>(
+                                                value: value,
+                                                child: Text(description),
+                                              ));
+                                        })
+                                        .values
+                                        .toList(),
+                                    value: dropDownValue,
+                                    // value: dropDownValue,
                                   ),
                                 ),
                               ),
@@ -135,7 +158,35 @@ class _ResultPageState extends State<ResultPage> {
                         children: [
                           Expanded(
                             child: NeuContainer(
+                              boxColor: isPreEmp ? colorChng[0] : colorChng[1],
+                              rightPadding: true,
+                              boxChild: FlatButton.icon(
+                                  icon: Icon(
+                                    isPreEmp
+                                        ? Icons.check_circle_outline
+                                        : Icons.brightness_1_outlined,
+                                    color:
+                                        isPreEmp ? colorChng[1] : colorChng[0],
+                                  ),
+                                  label: Text(
+                                    "Pre-Emptive",
+                                    style: TextStyle(
+                                        color: isPreEmp
+                                            ? colorChng[1]
+                                            : colorChng[0],
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isPreEmp = !isPreEmp;
+                                    });
+                                  }),
+                            ),
+                          ),
+                          Expanded(
+                            child: NeuContainer(
                               boxColor: Color(0xff616161),
+                              leftPadding: true,
                               boxChild: TextButton(
                                   child: Text(
                                     "Gant Chart",
