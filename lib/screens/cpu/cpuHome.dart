@@ -172,7 +172,7 @@ class _CPUHomeState extends State<CPUHome> {
                                   DataColumn(
                                     label: Text('Process'),
                                   ),
-                                  // if (priorityChecked)
+                                  if (priorityChecked)
                                   DataColumn(label: Text("Priority")),
                                   DataColumn(
                                     label: Text('Arrival Time'),
@@ -188,7 +188,7 @@ class _CPUHomeState extends State<CPUHome> {
                                   ...(dataMap).map((data) {
                                     return DataRow(cells: <DataCell>[
                                       DataCell(Text('P${data["Process"]}')),
-                                      // if (priorityChecked)
+                                      if (priorityChecked)
                                       DataCell(Text('${data['priority']}')),
                                       DataCell(Text('${data["arrivalTime"]}')),
                                       DataCell(Text('${data["burstTime1"]}')),
@@ -342,7 +342,7 @@ class _CPUHomeState extends State<CPUHome> {
                                           fontWeight: FontWeight.w500)),
                                   onChanged: (text) {
                                     setState(() {
-                                      // btInput2 = int.parse(text);
+                                      prior = int.parse(text);
                                     });
                                   },
                                 ),

@@ -4,6 +4,7 @@
 import './gantChart.dart';
 import 'package:flutter/material.dart';
 import './neuCont.dart';
+import './algorithms.dart';
 
 class ResultPage extends StatefulWidget {
   final bool isIO;
