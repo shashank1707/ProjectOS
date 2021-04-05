@@ -21,7 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  fl_chart: ^0.12.3 
+  fl_chart: ^0.12.3
+  charts_flutter: ^0.9.0
+  syncfusion_flutter_charts: ^18.4.47
+  new_gradient_app_bar: ^0.1.5
+  youtube_player_flutter: ^7.0.0+7
   flutter:
     sdk: flutter
 

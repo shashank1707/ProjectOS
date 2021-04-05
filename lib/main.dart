@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 //importing screens
 import 'package:project_os/screens/cpu/cpuHome.dart';
 import 'package:project_os/screens/deadlock/deadlockHome.dart';
-import 'package:project_os/screens/disk/diskHome.dart';
+import 'package:project_os/screens/disk/screens/diskHome.dart';
 import 'package:project_os/screens/page/pageHome.dart';
 
 //importing components

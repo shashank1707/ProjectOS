@@ -18,7 +18,7 @@ final controllerPR = TextEditingController();
 class _CPUHomeState extends State<CPUHome> {
   //variable declaration
   var theory =
-      'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vestibulum eget pellentesque diam, in maximus risus. Ut nec vehicula nisl. Nulla ';
+      'CPU scheduling is a process that allows one process to use the CPU while the execution of another process is on hold(in waiting state) due to unavailability of any resource like I/O etc, thereby making full use of CPU. The aim of CPU scheduling is to make the system efficient, fast, and fair.';
 
   List<Map> dataMap = [];
   int counter = 1;
@@ -166,7 +166,11 @@ class _CPUHomeState extends State<CPUHome> {
           child: CustomScrollView(
             slivers: <Widget>[
               SliverToBoxAdapter(
-                child: counter == 1 ? Text("$theory") : Container(),
+                child: counter == 1 ? Text("$theory",  style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff616161)
+                      ),textAlign: TextAlign.justify,) : Container(),
               ),
               SliverToBoxAdapter(
                 child: Center(
