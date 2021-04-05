@@ -16,18 +16,15 @@ final controllerBT2 = TextEditingController();
 final controllerPR = TextEditingController();
 
 class _CPUHomeState extends State<CPUHome> {
+  //variable declaration
   var theory =
       'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vestibulum eget pellentesque diam, in maximus risus. Ut nec vehicula nisl. Nulla ';
 
-  //
-  //
-  //---Process Modification Function---
-
-  //variable declaration
   List<Map> dataMap = [];
-
-  int counter = 0;
+  int counter = 1;
   int at = 0, btInput1 = 0, ioT = 0, btInput2 = 0, prior;
+  List<Color> colors = [Color(0xff616161), Color(0xffebebeb)];
+  double height = 203;
 
   //--Process Adding Function--
   void addData() {
@@ -39,6 +36,8 @@ class _CPUHomeState extends State<CPUHome> {
         "ioTime": ioT,
         "burstTime2": btInput2,
         "priority": prior,
+        "completed": false,
+        "RT": null,
       });
       controllerAT.text = "";
       at = 0;
@@ -61,24 +60,13 @@ class _CPUHomeState extends State<CPUHome> {
     });
   }
 
-  //
-  //
-  //---Bottom Navigation Bar Function
-  //variable declartion
-  List<Color> colors = [Color(0xff616161), Color(0xffebebeb)];
-  double height = 203;
-
-  //--Io button Fuction
-  //variable declarion
+  //--IO fuction
   bool isIO = false;
-
   int ioBg = 0;
   int ioText = 1;
-
   String bt1 = "";
   String bt2 = "";
 
-  //function
   void ioCheck() {
     setState(() {
       isIO = !isIO;
@@ -99,12 +87,10 @@ class _CPUHomeState extends State<CPUHome> {
   }
 
   //--priority fuction
-  //variable declartion
   int priorityText = 0;
   int priorityBg = 1;
   bool priorityChecked = false;
 
-  //function
   void priorityCheck() {
     setState(() {
       priorityChecked = !priorityChecked;
@@ -122,6 +108,33 @@ class _CPUHomeState extends State<CPUHome> {
 
   TextEditingController arrivalTime = TextEditingController();
   TextEditingController burstTime = TextEditingController();
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Oops"),
+      content: Text("Please Enter the values."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,13 +166,13 @@ class _CPUHomeState extends State<CPUHome> {
           child: CustomScrollView(
             slivers: <Widget>[
               SliverToBoxAdapter(
-                child: counter == 0 ? Text("$theory") : Container(),
+                child: counter == 1 ? Text("$theory") : Container(),
               ),
               SliverToBoxAdapter(
                 child: Center(
                   child: Column(
                     children: [
-                      if (counter != 0)
+                      if (counter != 1)
                         Container(
                           color: Colors.transparent,
                           child: SingleChildScrollView(
@@ -173,7 +186,7 @@ class _CPUHomeState extends State<CPUHome> {
                                     label: Text('Process'),
                                   ),
                                   if (priorityChecked)
-                                  DataColumn(label: Text("Priority")),
+                                    DataColumn(label: Text("Priority")),
                                   DataColumn(
                                     label: Text('Arrival Time'),
                                   ),
@@ -189,7 +202,7 @@ class _CPUHomeState extends State<CPUHome> {
                                     return DataRow(cells: <DataCell>[
                                       DataCell(Text('P${data["Process"]}')),
                                       if (priorityChecked)
-                                      DataCell(Text('${data['priority']}')),
+                                        DataCell(Text('${data['priority']}')),
                                       DataCell(Text('${data["arrivalTime"]}')),
                                       DataCell(Text('${data["burstTime1"]}')),
                                       if (isIO)
@@ -370,7 +383,7 @@ class _CPUHomeState extends State<CPUHome> {
                           color: colors[ioText],
                           label: Text("I/O",
                               style: TextStyle(color: colors[ioBg])),
-                          onPressed: counter == 0
+                          onPressed: counter == 1
                               ? () {
                                   ioCheck();
                                 }
@@ -396,7 +409,7 @@ class _CPUHomeState extends State<CPUHome> {
                                 color: colors[1], fontWeight: FontWeight.w500),
                           ),
                           onPressed: () {
-                            deleteData();
+                            if (counter > 1) deleteData();
                           },
                         ),
                       ),
@@ -448,7 +461,7 @@ class _CPUHomeState extends State<CPUHome> {
                                   color: colors[priorityText],
                                   fontWeight: FontWeight.w500),
                             ),
-                            onPressed: counter == 0
+                            onPressed: counter == 1
                                 ? () {
                                     priorityCheck();
                                   }
@@ -467,16 +480,20 @@ class _CPUHomeState extends State<CPUHome> {
                             style: TextStyle(
                                 color: colors[1], fontWeight: FontWeight.w500),
                           ),
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return ResultPage(
-                                isIO: isIO,
-                                isPri: priorityChecked,
-                                dataMap: dataMap,
-                              );
-                            }));
-                          }),
+                          onPressed: counter == 1
+                              ? () {
+                                  showAlertDialog(context);
+                                }
+                              : () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return ResultPage(
+                                      isIO: isIO,
+                                      isPri: priorityChecked,
+                                      dataMap: dataMap,
+                                    );
+                                  }));
+                                }),
                     ),
                   ],
                 ),

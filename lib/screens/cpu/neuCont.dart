@@ -30,7 +30,7 @@ class NeuContainer extends StatelessWidget {
                     : EdgeInsets.only(top: 7, bottom: 7),
         child: Container(
             width: boxWidth,
-            height: 43,
+            height: boxHeight == null ? 43 : boxHeight,
             alignment: boxAlignment,
             decoration: BoxDecoration(
                 color: boxColor == null ? Color(0xFFEBEBEB) : boxColor,
