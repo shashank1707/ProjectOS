@@ -33,6 +33,7 @@ class _AlgoImplementScreenState extends State<AlgoImplementScreen> {
   bool b = false, compare = false;
   List<int> array = [];
   List<List<int>> arr2 = [];
+  int sc = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,8 @@ class _AlgoImplementScreenState extends State<AlgoImplementScreen> {
                     keyboardType: TextInputType.number,
                     controller: headController,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                       hintText: 'Enter the value of head',
                       filled: true,
                       fillColor: Colors.white,
@@ -113,7 +115,8 @@ class _AlgoImplementScreenState extends State<AlgoImplementScreen> {
                     controller: arrayController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                       hintText: 'Enter the values of the array',
                       filled: true,
                       fillColor: Colors.white,
@@ -183,14 +186,26 @@ class _AlgoImplementScreenState extends State<AlgoImplementScreen> {
                     ),
                   if (b)
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 20),
                         Text(
-                          'Line Chart Visualisation',
+                          'Seek time: $sc ms',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
-                            color: Colors.white,
+                            color: Colors.cyan,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: Text(
+                            'Line Chart Visualisation',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         // LineGraphOs(array),
@@ -275,6 +290,7 @@ class _AlgoImplementScreenState extends State<AlgoImplementScreen> {
       });
       return;
     }
+    sc = ans[0];
     List<int> ans1 = ans[1] as List<int>;
     logger.log(ans1.toString());
     debugPrint('ggg');

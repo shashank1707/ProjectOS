@@ -19,6 +19,7 @@ class BarGraphSyncfusion extends StatelessWidget {
               series: <ChartSeries>[
                 // Renders column chart
                 ColumnSeries<LinearSales, String>(
+                  dataLabelSettings: DataLabelSettings(isVisible: true, color: Colors.white),
                   color: Colors.cyan,
                   dataSource: chartData(),
                   xValueMapper: (LinearSales sales, _) => sales.x,
