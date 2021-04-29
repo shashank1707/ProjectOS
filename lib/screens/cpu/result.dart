@@ -99,7 +99,10 @@ class _ResultPageState extends State<ResultPage> {
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
-        calcMap = Algorithms.rr(mapAdder(widget.dataMap), tq, false);
+        setState(() {
+          avgCalc(Algorithms.rr(mapAdder(widget.dataMap), tq, false));
+          calcMap = Algorithms.rr(mapAdder(widget.dataMap), tq, false);
+        });
         Navigator.of(context).pop();
       },
     );
@@ -196,7 +199,6 @@ class _ResultPageState extends State<ResultPage> {
           theory =
               "Lorem ipsum dolor sit amet,  adipiscing elit. Donec vulputate fermentum dignissim.";
           showAlertDialog(context);
-          avgCalc(calcMap);
         }
         break;
       case 21:
