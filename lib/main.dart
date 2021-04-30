@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   void textAnimate() async {
     await Future.delayed(Duration(seconds: 2));
     setState(() {
-      topPosition = 30;
+      topPosition = 40;
       leftPosition = 30;
     });
   }
@@ -106,14 +106,14 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 ),
               ),
               Positioned(
-                  top: 72,
+                  top: 82,
                   left: 33,
                   child: FadeTransition(
                       opacity: _animation,
                       child: Text(
                         "3 Teams  11 Members",
                         style: TextStyle(
-                            color: Colors.grey,
+                            color: Color(0xff606060),
                             fontWeight: FontWeight.bold,
                             fontSize: 13),
                       ))),
@@ -130,7 +130,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey),
+                            color: Color(0xff606060)),
                         textAlign: TextAlign.left,
                       ),
                     ),

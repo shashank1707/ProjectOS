@@ -147,7 +147,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 1;
           algoName = "First Come First Serve";
           theory =
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate fermentum dignissim.";
+              "First Come First Serve (FCFS) is an operating system scheduling algorithm that automatically executes queued requests and processes in order of their arrival. It is the easiest and simplest CPU scheduling algorithm. In this type of algorithm, processes which requests the CPU first get the CPU allocation first. This is managed with a FIFO queue. The full form of FCFS is First Come First Serve.";
           calcMap = Algorithms.fifo(mapAdder(widget.dataMap), false);
           avgCalc(calcMap);
         }
@@ -157,7 +157,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 2;
           algoName = "Shortest Job First";
           theory =
-              "Lorem dolor sit amet, consectetur adipiscing elit. Donec vulputate fermentum dignissim.";
+              "Shortest Job First (SJF) is an algorithm in which the process having the smallest execution time is chosen for the next execution. This scheduling method can be preemptive or non-preemptive. It significantly reduces the average waiting time for other processes awaiting execution. The full form of SJF is Shortest Job First.";
           calcMap = Algorithms.sjf(mapAdder(widget.dataMap), false);
           avgCalc(calcMap);
         }
@@ -167,7 +167,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 3;
           algoName = "Longest Job First";
           theory =
-              "Lorem ipsum  sit amet, consectetur adipiscing elit. Donec vulputate fermentum dignissim.";
+              "Longest Job First (LJF) is a non-preemptive scheduling algorithm. This algorithm is based upon the burst time of the processes. The processes are put into the ready queue based on their burst times i.e., in a descending order of the burst times. As the name suggests this algorithm is based upon the fact that the process with the largest burst time is processed first. The burst time of only those processes is considered that have arrived in the system until that time.";
           calcMap = Algorithms.ljf(mapAdder(widget.dataMap), false);
           avgCalc(calcMap);
         }
@@ -177,7 +177,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 4;
           algoName = "Shortest Remaining Time First";
           theory =
-              "Lorem ipsum dolor  amet, consectetur adipiscing elit. Donec vulputate fermentum dignissim.";
+              "In SRTF, the execution of the process can be stopped after certain amount of time. At the arrival of every process, the short term scheduler schedules the process with the least remaining burst time among the list of available processes and the running process.";
           calcMap = Algorithms.srtf(mapAdder(widget.dataMap), false);
           avgCalc(calcMap);
         }
@@ -187,7 +187,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 5;
           algoName = "Longest Remaining Time First";
           theory =
-              "Lorem ipsum dolor sit , consectetur adipiscing elit. Donec vulputate fermentum dignissim.";
+              "This is a pre-emptive version of Longest Job First (LJF) scheduling algorithm. In this scheduling algorithm, we find the process with the maximum remaining time and then process it. We check for the maximum remaining time after some interval of time(say 1 unit each) to check if another process having more Burst Time arrived up to that time.";
           calcMap = Algorithms.lrtf(mapAdder(widget.dataMap), false);
           avgCalc(calcMap);
         }
@@ -197,7 +197,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 6;
           algoName = "Round Robin";
           theory =
-              "Lorem ipsum dolor sit amet,  adipiscing elit. Donec vulputate fermentum dignissim.";
+              "In Round-robin scheduling, each ready task runs turn by turn only in a cyclic queue for a limited time slice. This algorithm also offers starvation free execution of processes.";
           showAlertDialog(context);
         }
         break;
@@ -206,7 +206,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 7;
           algoName = "Priority Non Pre-Emptive";
           theory =
-              "Lorem ipsum dolor sit amet, consectetur  elit. Donec vulputate fermentum dignissim.";
+              "Priority Scheduling is a method of scheduling processes that is based on priority. In this algorithm, the scheduler selects the tasks to work as per the priority.The processes with higher priority should be carried out first, whereas jobs with equal priorities are carried out on a round-robin or FCFS basis.";
           calcMap = Algorithms.prior(mapAdder(widget.dataMap), false);
           avgCalc(calcMap);
         }
@@ -216,7 +216,7 @@ class _ResultPageState extends State<ResultPage> {
           algoNum = 8;
           algoName = "Priority Pre-Emptive";
           theory =
-              "Lorem ipsum dolor sit amet, consectetur adipiscing . Donec vulputate fermentum dignissim.";
+              "Priority Scheduling is a method of scheduling processes that is based on priority. In this algorithm, the scheduler selects the tasks to work as per the priority.The processes with higher priority should be carried out first, whereas jobs with equal priorities are carried out on a round-robin or FCFS basis.";
           calcMap = Algorithms.preEmpPrior(mapAdder(widget.dataMap), false);
           avgCalc(calcMap);
         }
@@ -225,8 +225,7 @@ class _ResultPageState extends State<ResultPage> {
       default:
         {
           algoName = "Please Select an Algo";
-          theory =
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  vulputate fermentum dignissim.";
+          theory = "You did not select any algorithm.";
         }
         break;
     }

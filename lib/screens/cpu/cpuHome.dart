@@ -18,7 +18,7 @@ final controllerPR = TextEditingController();
 class _CPUHomeState extends State<CPUHome> {
   //variable declaration
   var theory =
-      'Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vestibulum eget pellentesque diam, in maximus risus. Ut nec vehicula nisl. Nulla ';
+      'CPU Scheduling is the process of determining which process will own CPU for execution while another process is on hold. The main task of CPU Scheduling is to make sure that whenever the CPU remains idle, the operating system at least selects one of the process available in the ready queue for execution. The selection process in the memory that are ready for execution.';
 
   List<Map> dataMap = [];
   int counter = 1;
